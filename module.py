@@ -49,6 +49,10 @@ class Module(module.ModuleModel):
         from .api.update_test_status import TestStatusUpdater
         from .api.get_loki_url import GetLokiUrl
         from .api.security_report_api import SecurityReportAPI
+
+
+        self.descriptor.init_blueprint()
+
         add_resource_to_api(
             self.context.api, GetLokiUrl,
             "/security/<int:project_id>/get_url",
