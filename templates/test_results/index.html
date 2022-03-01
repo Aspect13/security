@@ -1,0 +1,187 @@
+{% set test_finished = config['test_data']['test_status']['percentage'] == 100 %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('security.static', filename='css/test_results.css') }}"/>
+
+<div class="card card-12">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-4">
+                <h3>
+                    <a class="btn-primary" href="?chapter=Security&module=App&page=list"><i class="fas fa-arrow-left"></i></a>
+                    {{ config['test_data']["test_name"] }}
+                </h3>
+            </div>
+            <div class="col-8">
+                <div class="d-flex justify-content-end">
+                    {% if test_finished %}
+                        <button class="btn btn-32 btn-secondary" id="re_run_test">
+                            <span class="fa fa-play"></span>
+                        </button>
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#showConfigModal" id="show_config_btn">
+                            Show config
+                        </button>
+                    {% else %}
+                        <button class="btn btn-danger">
+                            Stop test
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if test_finished %}
+        <div class="card-body" id="findings-small-cards">
+            <div class="row">
+                <div class="col">
+                    <div class="card card-sm card-gray">
+                        <div class="card-header" data-updatable-field="findings">{{ config['test_data']["findings"] }}</div>
+                        <div class="card-body">new</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-sm card-red">
+                        <div class="card-header" data-updatable-field="critical">{{ config['test_data']["critical"] }}</div>
+                        <div class="card-body">critical</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-sm card-orange">
+                        <div class="card-header" data-updatable-field="high">{{ config['test_data']["high"] }}</div>
+                        <div class="card-body">high</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-sm card-yellow">
+                        <div class="card-header" data-updatable-field="medium">{{ config['test_data']["medium"] }}</div>
+                        <div class="card-body">medium</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-sm card-green">
+                        <div class="card-header" data-updatable-field="low">{{ config['test_data']["low"] }}</div>
+                        <div class="card-body">low</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-sm card-blue">
+                        <div class="card-header" data-updatable-field="info">{{ config['test_data']["info"] }}</div>
+                        <div class="card-body">info</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="processing-table">
+                <div class="col">
+                    <div class="card card-sm-table">
+                        <div class="card-body">
+                            <table>
+                                <tr>
+                                    <td>Started</td>
+                                    <td>{{ config['test_data']["start_date"] }}</td>
+                                    <td>scan type</td>
+                                    <td>{{ config['test_data']['scan_type'] }}</td>
+                                    <td>valid</td>
+                                    <td data-updatable-field="valid">{{ config['test_data']["valid"] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Ended</td>
+                                    <td>{{ config['test_data']["scan_time"] }}</td>
+                                    <td>Environment</td>
+                                    <td>{{ config['test_data']['environment'] }}</td>
+                                    <td>false positives</td>
+                                    <td data-updatable-field="false_positive">{{ config['test_data']["false_positive"] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>duration</td>
+                                    <td>{{ config['test_data']["scan_duration"] }} s</td>
+                                    <td>findings</td>
+                                    <td data-updatable-field="findings">{{ config['test_data']["findings"] }}</td>
+                                    <td>ignored</td>
+                                    <td data-updatable-field="ignored">{{ config['test_data']["ignored"] }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-sm-table">
+                        <div class="card-body">
+                            <table>
+                                <tr>
+                                    <td>Scanners</td>
+                                    <td>
+                                        {{ config['test_data']['test_config']['integrations']['scanners'] | join(', ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>URL</td>
+                                    <td>
+                                        {{ config['test_data']['test_config']['urls_to_scan'] | join(', ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tags</td>
+                                    <td>
+                                        {{ config['test_data']['tags'] | tag_format | safe }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card-body p-4 m-4 space-progress">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <h4 id="test_status_status">
+                        {{ config['test_data']['test_status']['status'] }}
+                    </h4>
+                </div>
+                <div class="col-6">
+                    <div class="progress">
+                        <div
+                                class="progress-bar progress-bar-striped bg-success progress-bar-animated"
+                                role="progressbar"
+                                aria-valuenow="{{ config['test_data']['test_status']['percentage'] }}"
+                                style="width: {{ config['test_data']['test_status']['percentage'] }}%"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                        >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center m-2 p-2">
+                    <h12 class="test_status_description">
+                        {{ config['test_data']['test_status']['description'] }}
+                    </h12>
+                </div>
+
+            </div>
+
+
+        </div>
+    {% endif %}
+</div>
+
+
+{% if test_finished %}
+    {% include 'security:test_results/show_config.html' %}
+    {% include 'security:test_results/findings_table.html' %}
+    {% include 'security:test_results/artifacts_table.html' %}
+    <script src="{{ url_for('security.static', filename='js/test_results/summary.js') }}"></script>
+{#    {{ template_slot("security_results_show_config", payload=config['test_data']['test_config']) | safe }}#}
+{#    {{ template_slot("security_findings_table", payload=config) | safe }}#}
+{#    {{ template_slot("security_artifacts_table", payload=config) | safe }}#}
+
+{% else %}
+    <div id="logs"><LogsApp></LogsApp></div>
+    <script src="{{ url_for('security.static', filename='js/test_results/in_progress.js') }}"></script>
+    <script src="{{ url_for('security.static', filename='js/test_results/logs_updater.js') }}"></script>
+{#    {{ template_slot("security_logs_list", payload=config) | safe }}#}
+
+
+
+{#<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.4/axios.min.js" integrity="sha512-lTLt+W7MrmDfKam+r3D2LURu0F47a3QaW5nF0c6Hl0JDZ57ruei+ovbg7BrZ+0bjVJ5YgzsAWE+RreERbpPE1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>#}
+{#<script src="{{ url_for('theme.static', filename='js/components/security/logs_updater.js') }}" type="text/javascript"></script>#}
+{% endif %}

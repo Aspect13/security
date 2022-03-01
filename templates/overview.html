@@ -1,0 +1,164 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('security.static', filename='css/overview.css') }}"/>
+
+<div class="card card-12">
+<div class="card-header">
+    <h3>Project Status</h3>
+</div>
+<div class="card-body">
+    {% set card_classes = {
+        'critical': 'card-red',
+        'high': 'card-orange',
+        'medium': 'card-yellow',
+        'low': 'card-green',
+        'info': 'card-blue'
+    } %}
+    <div class="row">
+        <div class="col">
+            <div class="card card-sm card-health">
+                <div class="card-header">VAL</div>
+                <div class="card-body">Project health</div>
+            </div>
+        </div>
+        {% for k, v in card_classes.items() %}
+            <div class="col">
+                <div class="card card-sm {{ v }}">
+                    <div class="card-header">{{ overview_data.get('sum_%s' | format(k)) }}</div>
+                    <div class="card-body">{{ k }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="card-header">
+    <h3>Scans frequency</h3>
+</div>
+<div class="card-body">
+    chart
+
+    {#        <pre>#}
+    {#                {{ config | safe }}#}
+    {#        </pre>#}
+</div>
+
+</div>
+
+<div class="d-flex">
+    <div class="card card-x">
+        <div class="card-header">
+            <div class="col-3">
+                <h3>Latest tests</h3>
+            </div>
+            <div class="col-9">
+
+            </div>
+        </div>
+        <div class="card-body card-table">
+            <div class="tst">
+                [[ lr_table ]]
+            </div>
+{#            <bootstrap-table :columns="lr_table.columns"#}
+{#                             :data="lr_table.data"#}
+{#                             :options="lr_table.options">#}
+{##}
+{#            </bootstrap-table>#}
+                        <table class="table table-borderless"
+                               id="latest_tests"
+                               data-unique-id="id"
+                               data-toggle="table"
+                               data-url="/api/v1/security/{{ project_id }}/dast"
+                               data-pagination="true"
+                               data-page-size=5
+                               data-side-pagination="server"
+                               data-pagination-parts='["pageInfoShort", "pageList"]'
+                        >
+                            <thead class="thead-light">
+                            <tr>
+                                <th data-visible="false" data-field="id">index</th>
+                                <th scope="col" data-sortable="true" data-field="name">Name</th>
+                                <th scope="col" data-sortable="true" data-field="created" data-width="250" data-width-unit="px">
+                                    Date
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+        </div>
+    </div>
+
+    <div class="card card-x">
+        <div class="card-header">
+            <div class="col-3">
+                <h3>Latest reports</h3>
+            </div>
+            <div class="col-9">
+
+            </div>
+        </div>
+        <div class="card-body card-table">
+            <table class="table table-borderless"
+                   data-toggle="table"
+                   data-url="/api/v1/security/{{ project_id }}/dast/results"
+                   data-virtual-scroll="true"
+                   data-pagination="true"
+{#                       data-page-size=13#}
+                   :data-page-size="page_size"
+                   data-side-pagination="server"
+                   data-pagination-parts='["pageInfoShort", "pageList"]'
+            >
+                <thead class="thead-light">
+                <tr>
+                    <th data-visible="false" data-field="id">index</th>
+                    <th scope="col" data-sortable="true" data-field="test_name" data-formatter="test_name_button">
+                        Name
+                    </th>
+                    <th scope="col" data-sortable="true" data-field="start_date" data-width="250" data-width-unit="px">
+                        Date
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex">
+    <div class="card card-x">
+        <div class="card-header">
+            <div class="col-3">
+                <h3>Error stats</h3>
+            </div>
+            <div class="col-9">
+
+            </div>
+        </div>
+        <div class="card-body card-table">
+
+        </div>
+    </div>
+
+    <div class="card card-x">
+        <div class="card-header">
+            <div class="col-3">
+                <h3>Schedules</h3>
+            </div>
+            <div class="col-9">
+
+            </div>
+        </div>
+        <div class="card-body card-table">
+
+        </div>
+    </div>
+</div>
+
+
+{#<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table-vue.min.js"></script>#}
+<script src="{{ url_for('security.static', filename='js/overview.js') }}"></script>
+<script>
+    {#$.when(vueApp).then(() => {#}
+    {#    console.log('vueApp EVENT')#}
+    {#    vueApp.component('BootstrapTable', BootstrapTable)#}
+    {#})#}
+    $.when(window.vueVm).then(() => {
+        console.log('VM EVENT')
+    })
+</script>

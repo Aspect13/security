@@ -13,7 +13,7 @@ def security_results_or_404(run_id: int) -> SecurityResultsDAST:
     return SecurityResultsDAST.query.get_or_404(run_id)
 
 
-def overview_data(project_id: int) -> dict:
+def get_overview_data(project_id: int) -> dict:
     queries = [
         func.sum(getattr(SecurityResultsDAST, i)).label(f'sum_{i}')
         for i in SecurityReport.SEVERITY_CHOICES.keys()
