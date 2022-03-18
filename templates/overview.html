@@ -65,7 +65,9 @@
                                id="latest_tests"
                                data-unique-id="id"
                                data-toggle="table"
+
                                data-url="/api/v1/security/{{ project_id }}/dast"
+
                                data-pagination="true"
                                data-page-size=5
                                data-side-pagination="server"
@@ -153,12 +155,3 @@
 
 {#<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table-vue.min.js"></script>#}
 <script src="{{ url_for('security.static', filename='js/overview.js') }}"></script>
-<script>
-    {#$.when(vueApp).then(() => {#}
-    {#    console.log('vueApp EVENT')#}
-    {#    vueApp.component('BootstrapTable', BootstrapTable)#}
-    {#})#}
-    $.when(window.vueVm).then(() => {
-        console.log('VM EVENT')
-    })
-</script>

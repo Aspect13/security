@@ -1,5 +1,5 @@
 <div class="d-flex">
-    <div class="card card-x">
+    <div class="card card-x card-table-sm">
 
         <div class="card-header">
             <div class="row">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="card-body card-table">
+        <div class="card-body">
             <table class="table table-borderless"
                    id="tests-list"
                    data-unique-id="id"
@@ -28,6 +28,8 @@
                    data-page-size=5
                    data-side-pagination="server"
                    data-pagination-parts='["pageInfoShort", "pageList"]'
+                   data-pagination-pre-text="<img src='{{ url_for('design-system.static', filename='assets/ico/arrow_left.svg') }}'>"
+                   data-pagination-next-text="<img src='{{ url_for('design-system.static', filename='assets/ico/arrow_right.svg') }}'>"
             >
                 <thead class="thead-light">
                 <tr>
@@ -54,7 +56,7 @@
         </div>
     </div>
 
-    <div class="card card-x">
+    <div class="card card-x card-table-sm">
 
         <div class="card-header">
             <div class="row">
@@ -75,7 +77,7 @@
             </div>
         </div>
 
-        <div class="card-body card-table">
+        <div class="card-body">
             <table class="table table-borderless"
                    id="threshold-list"
                    data-toggle="table"
@@ -98,7 +100,7 @@
     </div>
 </div>
 
-<div class="card card-12">
+<div class="card card-12 card-table-sm">
 
     <div class="card-header">
         <div class="row">
@@ -116,7 +118,7 @@
         </div>
     </div>
 
-    <div class="card-body card-table">
+    <div class="card-body">
         <table class="table table-borderless"
                id="results-list"
                data-toggle="table"
