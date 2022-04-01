@@ -28,8 +28,7 @@ class SecurityModal {
             return SecurityModal._instance
         }
         this.containerId = containerId
-        this.container = $(`#${containerId}`)
-        this.container.on('hide.bs.modal', this.clear)
+        this.refreshContainer()
         SecurityModal._instance = this
         this.registerDataProvider(new SectionDataProvider('name', {
             get: () => $('#test_name').val(),
@@ -130,6 +129,12 @@ class SecurityModal {
         }))
     }
 
+    refreshContainer = () => {
+        this.container = $(`#${this.containerId}`)
+        this.container.on('hide.bs.modal', this.clear)
+        this.container.on('hide.bs.modal', () => console.log('CLOSED'))
+    }
+
     registerDataProvider = provider => this.dataModel[provider.name] = provider
 
     setData = data => {
@@ -202,7 +207,13 @@ class SecurityModal {
 
 }
 
-const securityModal = new SecurityModal('createApplicationTest')
+let securityModal = new SecurityModal('createApplicationTest')
+wait_for('vueVm').then(() => {
+    // SecurityModal._instance = null
+    // securityModal = new SecurityModal('createApplicationTest')
+    securityModal.refreshContainer()
+})
+
 
 
 var tableFormatters = {
