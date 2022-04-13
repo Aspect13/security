@@ -208,11 +208,9 @@ class SecurityModal {
 }
 
 let securityModal = new SecurityModal('createApplicationTest')
-wait_for('vueVm').then(() => {
-    // SecurityModal._instance = null
-    // securityModal = new SecurityModal('createApplicationTest')
-    securityModal.refreshContainer()
-})
+// wait_for('vueVm').then(() => {
+//     securityModal.refreshContainer()
+// })
 
 
 
@@ -363,7 +361,9 @@ const apiActions = {
 
 }
 
-$(document).ready(() => {
+
+$(document).on('vue_init', () => {
+    securityModal.refreshContainer()
     $('#security_test_save').on('click', securityModal.handleSave)
     $('#security_test_save_and_run').on('click', securityModal.handleSaveAndRun)
     $('#delete_test').on('click', e => {

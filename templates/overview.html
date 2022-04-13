@@ -53,9 +53,6 @@
             </div>
         </div>
         <div class="card-body card-table">
-            <div class="tst">
-                [[ lr_table ]]
-            </div>
 {#            <bootstrap-table :columns="lr_table.columns"#}
 {#                             :data="lr_table.data"#}
 {#                             :options="lr_table.options">#}
@@ -101,8 +98,7 @@
                    data-url="/api/v1/security/{{ project_id }}/dast/results"
                    data-virtual-scroll="true"
                    data-pagination="true"
-{#                       data-page-size=13#}
-                   :data-page-size="page_size"
+                   data-page-size=13
                    data-side-pagination="server"
                    data-pagination-parts='["pageInfoShort", "pageList"]'
             >
