@@ -69,6 +69,3 @@ class SecurityTestApi(Resource, RpcMixin):
             SecurityTestsDAST.get_api_filter(project_id, test_id)
         ).first()
         return run_test(test, config_only=request.json.get('type', False))
-
-
-
