@@ -12,6 +12,9 @@ from tools import rpc_tools, task_tools
 
 
 def run_test(test: SecurityTestsDAST, config_only=False) -> dict:
+    if config_only:
+        return test.configure_execution_json("cc")
+
     engagement_id = test.integrations.get('reporters', {}).get('reporter_engagement')
 
     results = SecurityResultsDAST(
@@ -27,9 +30,6 @@ def run_test(test: SecurityTestsDAST, config_only=False) -> dict:
     test.commit()
 
     event = [test.configure_execution_json("cc")]
-
-    if config_only:
-        return event[0]
 
     resp = task_tools.run_task(test.project_id, event)
     resp['redirect'] = f'/task/{resp["task_id"]}/results'  # todo: where this should lead to?

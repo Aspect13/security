@@ -138,5 +138,5 @@ class API(Resource):
 
         if finding_db:
             finding_db.commit()
-            return make_response('ok', 204)
-        return make_response('No findings passed', 400)
+            return 'ok', 204
+        return 'No findings passed', 400
